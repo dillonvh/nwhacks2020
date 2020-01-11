@@ -8,6 +8,9 @@ function App() {
   return (
     <div className="App">
       <div className="Main">
+        <h1>
+          HackerHelper
+        </h1>
         <Button variant="contained" color="primary" size="large">
           Start Session &nbsp;
           <PlayCircleOutlineIcon />
