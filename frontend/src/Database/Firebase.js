@@ -11,6 +11,4 @@ function initFirebase() {
   return firebase.firestore();
 }
 
-export default {
-  initFirebase
-};
+export default initFirebase;
