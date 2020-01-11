@@ -9,7 +9,8 @@ function App() {
     <div className="App">
       <div className="Main">
         <Button variant="contained" color="primary" size="large">
-          Start Session <PlayCircleOutlineIcon />
+          Start Session &nbsp;
+          <PlayCircleOutlineIcon />
         </Button>
       </div>
     </div>
