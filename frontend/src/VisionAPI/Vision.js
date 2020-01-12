@@ -39,7 +39,7 @@ async function getVisionAPIResults(base64ImageString) {
 
     return faceData;
   } catch(e) {
-
+    return {};
   }
 
 }

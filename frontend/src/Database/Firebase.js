@@ -19,7 +19,6 @@ function initFirebase() {
 async function createSession(db) {
   const startTimestamp = moment().format("YYYY-MM-DD HH:mm:ss");
   const maxSessionId = await getMaxSessionId(db);
-  console.log(maxSessionId);
   const newSessionId = parseInt(maxSessionId) + 1;
   const entryKey = "session" + newSessionId.toString();
   db.collection("sessions").doc(entryKey).set({
@@ -27,11 +26,6 @@ async function createSession(db) {
     startTimestamp,
     endTimestamp: "",
     sessionData: []
-    // Session data will be an array of objects that look like the following:
-    // {
-    //   base64ImageString: string,
-    //   visionAPIData: Object
-    // }
   });
   console.log("Session created!", newSessionId);
   return newSessionId;
@@ -45,7 +39,7 @@ async function endSession(db, sessionID) {
   sessionsRef.doc(sessionIdEntryKey).update({
     endTimestamp
   });
-  console.log("Session ended!", sessionID);
+  console.log("Session ended", sessionID);
 }
 
 // Gets the max session id, necessary for adding new sessions
@@ -71,10 +65,9 @@ async function writeSessionData(db, base64ImageString, sessionId) {
   const sessionIdEntryKey = "session" + sessionId.toString();
   const sessionDoc = await sessionsRef.doc(sessionIdEntryKey).get();
   const sessionData = Array.from(sessionDoc.data().sessionData);
-  console.log('og sessiondata copy', sessionData);
   // Get the image vision API data
   const visionAPIData = await getVisionAPIResults(base64ImageString);
-  console.log(visionAPIData);
+  console.log("visionAPIData: ", visionAPIData);
   sessionData.push({
     base64ImageString,
     visionAPIData
