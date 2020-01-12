@@ -2,8 +2,10 @@ import React from "react";
 import "./App.css";
 import Button from "@material-ui/core/Button";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
+import StopIcon from "@material-ui/icons/HighlightOff";
 import WebcamCapture from "./WebcamCapture";
 import dbFunctions from "./Database/Firebase";
+import SelectForms from "./SelectForms.js"
 
 class App extends React.Component {
   constructor(props) {
@@ -49,6 +51,7 @@ class App extends React.Component {
   render() {
     let sessionButtonJSX = null;
     let webcamCaptureJSX = null;
+    let selectFormsJSX = null;
 
     if (this.state.sessionLive) {
       webcamCaptureJSX = (
@@ -66,9 +69,11 @@ class App extends React.Component {
           size="large"
         >
           Stop Session &nbsp;
+          <StopIcon />
         </Button>
       );
     } else {
+      selectFormsJSX = <SelectForms />
       sessionButtonJSX = (
         <Button
           onClick={this.handleStartSessionClick}
@@ -86,6 +91,7 @@ class App extends React.Component {
       <div className="App">
         <div className="Main">
           <h1>HackerHelper</h1>
+          {selectFormsJSX}
           {sessionButtonJSX}
           {webcamCaptureJSX}
         </div>
