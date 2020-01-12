@@ -1,8 +1,8 @@
 import React from "react";
-import Webcam from "react-webcam";
 import "./App.css";
 import Button from "@material-ui/core/Button";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
+import WebcamCapture from './WebcamCapture';
 import initFirebase from "./Database/Firebase";
 
 class App extends React.Component {
@@ -10,7 +10,6 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
     }
   }
 
@@ -30,12 +29,11 @@ class App extends React.Component {
             Start Session &nbsp;
             <PlayCircleOutlineIcon />
           </Button>
+          <WebcamCapture />
         </div>
-
       </div>
     );
   }
-
 
   startSession = () => {
     // Start the session by writing to firebase
@@ -43,40 +41,8 @@ class App extends React.Component {
 
   takePicture = () => {
     // Take a picture from the webcam, write it to Cloud Storage, get the image URL back and store it in firebase
+
   }
-
-
 }
-
-const videoConstraints = {
-  width: 1280,
-  height: 720,
-  facingMode: "user"
-};
-
-const WebcamCapture = () => {
-  const webcamRef = React.useRef(null);
-
-  const capture = React.useCallback(
-    () => {
-      const imageSrc = webcamRef.current.getScreenshot();
-    },
-    [webcamRef]
-  );
-
-  return (
-    <>
-      <Webcam
-        audio={false}
-        height={720}
-        ref={webcamRef}
-        screenshotFormat="image/jpeg"
-        width={1280}
-        videoConstraints={videoConstraints}
-      />
-      <button onClick={capture}>Capture photo</button>
-    </>
-  );
-};
 
 export default App;
