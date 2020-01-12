@@ -15,7 +15,7 @@ class App extends React.Component {
       imageData: "",
       db: null,
       sessionLive: false,
-      sessionID: null,
+      sessionId: null,
       // Hack: When session is complete
       sessionComplete: false
     };
@@ -36,15 +36,15 @@ class App extends React.Component {
   };
 
   handleStartSessionClick = async () => {
-    const newSessionID = await dbFunctions.createSession(this.state.db);
+    const newSessionId = await dbFunctions.createSession(this.state.db);
     this.setState({
       sessionLive: !this.state.sessionLive,
-      sessionID: newSessionID
+      sessionId: newSessionId
     });
   };
 
   handleStopSessionClick = async () => {
-    await dbFunctions.endSession(this.state.db, this.state.sessionID);
+    await dbFunctions.endSession(this.state.db, this.state.sessionId);
     this.setState({
       sessionLive: !this.state.sessionLive,
       sessionComplete: true
@@ -59,13 +59,14 @@ class App extends React.Component {
 
     if (this.state.sessionComplete) {
       displayJSX = <Display
+        db={this.state.db}
         sessionId={this.state.sessionId}
       />
     } else if (this.state.sessionLive && !this.state.sessionComplete) {
       webcamCaptureJSX = (
         <WebcamCapture
           db={this.state.db}
-          sessionId={this.state.sessionID}
+          sessionId={this.state.sessionId}
           setImageDataAppState={this.setImageDataAppState}
         />
       );

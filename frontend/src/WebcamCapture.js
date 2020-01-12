@@ -38,7 +38,7 @@ class WebcamCapture extends React.Component {
           screenshotFormat="image/jpeg"
           videoConstraints={videoConstraints}
         />
-        <ReactInterval timeout={10000} enabled={true} callback={this.capture} />
+        <ReactInterval timeout={5000} enabled={true} callback={this.capture} />
       </>
     );
   }

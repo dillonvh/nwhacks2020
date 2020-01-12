@@ -13,7 +13,7 @@ const likelinessValueScaleMap = {
   "UNLIKELY": 30,
   "POSSIBLE": 50,
   "LIKELY": 70,
-  "VERY LIKELY": 90
+  "VERY_LIKELY": 90
 };
 
 class Display extends React.Component {
@@ -25,8 +25,8 @@ class Display extends React.Component {
   }
 
   async componentDidMount () {
-    // TODO: Get charts to display
-    const session = await dbFunctions.getSession(this.props.sessionId);
+    console.log("component did mount, sessionId:", this.props.sessionId);
+    const session = await dbFunctions.getSession(this.props.db, this.props.sessionId);
     this.setState({
       session
     });
@@ -37,24 +37,31 @@ class Display extends React.Component {
     const dataPointsJoy = [];
     const dataPointsSorrow = [];
     const dataPointsSurprise = [];
-    this.state.session.sessionData.forEach((dataEntry, index) => {
-      dataPointsAnger.push({x: index * 10, y: likelinessValueScaleMap[dataEntry.sessionData.visionAPI.anger]});
-      dataPointsJoy.push({x: index * 10, y: likelinessValueScaleMap[dataEntry.sessionData.visionAPI.joy]});
-      dataPointsSorrow.push({x: index * 10, y: likelinessValueScaleMap[dataEntry.sessionData.visionAPI.sorrow]});
-      dataPointsSurprise.push({x: index * 10, y: likelinessValueScaleMap[dataEntry.sessionData.visionAPI.surprise]});
-    });
-    const sessionChartCardJSX = (
-      <Card>
-        <Chart
-          dataPointsAnger={dataPointsAnger}
-          dataPointsJoy={dataPointsJoy}
-          dataPointsSorrow={dataPointsSorrow}
-          dataPointsSurprise={dataPointsSurprise}
-          startTimestamp={this.state.session.startTimestamp}
-          endTimestamp={this.state.session.endTimestamp}
-        />
-      </Card>
-    );
+
+    let sessionChartCardJSX = <h1>No session yet! Can't make a chart</h1>;
+
+    if (this.state.session && this.state.session.sessionData && this.state.session.sessionData.length !== 0) {
+
+      this.state.session.sessionData.forEach((dataEntry, index) => {
+        dataPointsAnger.push({x: index * 10, y: likelinessValueScaleMap[dataEntry.visionAPIData.anger]});
+        dataPointsJoy.push({x: index * 10, y: likelinessValueScaleMap[dataEntry.visionAPIData.joy]});
+        dataPointsSorrow.push({x: index * 10, y: likelinessValueScaleMap[dataEntry.visionAPIData.sorrow]});
+        dataPointsSurprise.push({x: index * 10, y: likelinessValueScaleMap[dataEntry.visionAPIData.surprise]});
+      });
+
+      sessionChartCardJSX = (
+        <div>
+          <Chart
+            dataPointsAnger={dataPointsAnger}
+            dataPointsJoy={dataPointsJoy}
+            dataPointsSorrow={dataPointsSorrow}
+            dataPointsSurprise={dataPointsSurprise}
+            startTimestamp={this.state.session.startTimestamp}
+            endTimestamp={this.state.session.endTimestamp}
+          />
+        </div>
+      );
+    }
 
     return (
       <div>

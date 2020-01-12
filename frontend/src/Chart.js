@@ -23,8 +23,8 @@ export default function Chart(props) {
     },
     axisX: {
       title: "Time",
-      interval: timeDiffInSeconds / 10, // TODO: figure this out
-      suffix: "* 10s"
+      interval: 2, // timeDiffInSeconds / 10, // TODO: figure this interval out
+      suffix: "s"
     },
     data: [
       {
