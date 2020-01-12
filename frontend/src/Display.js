@@ -43,7 +43,7 @@ class Display extends React.Component {
     let grandTotal = 0;
 
     // TODO: render the proper message if nothing loads
-    let sessionChartCardJSX = <h3>Visualizations are loading.</h3>;
+    let sessionDisplayChartJSX = <h3>Visualizations are loading.</h3>;
 
     if (
       this.state.session &&
@@ -83,7 +83,7 @@ class Display extends React.Component {
         grandTotal = angerTotal + joyTotal + sorrowTotal + surpriseTotal;
       });
 
-      sessionChartCardJSX = (
+      sessionDisplayChartJSX = (
         <div className="session-chart-wrapper">
           <div className="session-chart-wrapper-child">
             <MultiChart
@@ -203,7 +203,7 @@ class Display extends React.Component {
 
     return (
       <div className="display-wrapper">
-        {sessionChartCardJSX}
+        {sessionDisplayChartJSX}
       </div>
     );
   }

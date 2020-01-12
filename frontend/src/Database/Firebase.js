@@ -32,14 +32,6 @@ async function createSession(db, initialSessionData) {
   return newSessionId;
 }
 
-async function writeTimeDifference(db, timeDifferenceSeconds, sessionId) {
-  const sessionsRef = db.collection("sessions");
-  const sessionIdEntryKey = "session" + sessionId.toString();
-  await sessionsRef.doc(sessionIdEntryKey).update({
-    totalSessionTime: timeDifferenceSeconds
-  });
-}
-
 // Ends a session by writing the endTimestamp to the session
 async function endSession(db, sessionId) {
   const endTimestamp = moment().format("YYYY-MM-DD HH:mm:ss");
@@ -91,6 +83,11 @@ async function writeSessionData(db, base64ImageString, sessionId) {
   console.log("Wrote data to session", sessionId);
 }
 
+async function getAllSessions(db) {
+  const allSessionsSnapshot = await db.collection("sessions").get();
+  return allSessionsSnapshot.docs.map(doc => {return doc.data()});
+}
+
 // Get the sessionData array for a session
 async function getSession(db, sessionId) {
   const sessionsRef = db.collection("sessions");
@@ -99,19 +96,11 @@ async function getSession(db, sessionId) {
   return sessionDoc.data();
 }
 
-async function getEndTimestamp(db, sessionId) {
-  const sessionsRef = db.collection("sessions");
-  const sessionIdEntryKey = "session" + sessionId.toString();
-  const sessionDoc = await sessionsRef.doc(sessionIdEntryKey).get();
-  return sessionDoc.data().endTimestamp;
-}
-
 export default {
   initFirebase,
   createSession,
   endSession,
   writeSessionData,
   getSession,
-  getEndTimestamp,
-  writeTimeDifference
+  getAllSessions
 }
