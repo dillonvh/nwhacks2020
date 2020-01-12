@@ -32,7 +32,7 @@ export default function Chart(props) {
     data: [
       {
         type: "line",
-        toolTipContent: "Time {x}s: {y}% Eye Level", // TODO: Proper timestamp intervals: hours if it makes sense, or minutes
+        toolTipContent: props.titles.tooltip, // TODO: Proper timestamp intervals: hours if it makes sense, or minutes
         dataPoints: props.dataPoints
       }
     ]

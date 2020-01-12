@@ -80,14 +80,77 @@ class Display extends React.Component {
               endTimestamp={this.state.session.endTimestamp}
             />
           </div>
+
+          {/* Posture Chart */}
           <div>
             <SoloChart
               titles={{
                 main: "Posture Indicator for this session",
                 x: "Time",
-                y: "Nose Height in Frame"
+                y: "Nose Height in Frame",
+                tooltip: "Time {x}s: {y}% Eye Level"
               }}
               dataPoints={dataPointsPosture}
+              startTimestamp={this.state.session.startTimestamp}
+              endTimestamp={this.state.session.endTimestamp}
+            />
+          </div>
+
+          {/* Joy Chart */}
+          <div>
+            <SoloChart
+              titles={{
+                main: "Joy over Time for this session",
+                x: "Time",
+                y: "Likeliness of Joy",
+                tooltip: "Time {x}s: {y}% Joy"
+              }}
+              dataPoints={dataPointsJoy}
+              startTimestamp={this.state.session.startTimestamp}
+              endTimestamp={this.state.session.endTimestamp}
+            />
+          </div>
+
+          {/* Anger Chart */}
+          <div>
+            <SoloChart
+              titles={{
+                main: "Anger over Time for this session",
+                x: "Time",
+                y: "Likeliness of Anger",
+                tooltip: "Time {x}s: {y}% Anger"
+              }}
+              dataPoints={dataPointsAnger}
+              startTimestamp={this.state.session.startTimestamp}
+              endTimestamp={this.state.session.endTimestamp}
+            />
+          </div>
+
+          {/* Sorrow Chart */}
+          <div>
+            <SoloChart
+              titles={{
+                main: "Sorrow over Time for this session",
+                x: "Time",
+                y: "Likeliness of Sorrow",
+                tooltip: "Time {x}s: {y}% Sorrow"
+              }}
+              dataPoints={dataPointsSorrow}
+              startTimestamp={this.state.session.startTimestamp}
+              endTimestamp={this.state.session.endTimestamp}
+            />
+          </div>
+
+          {/* Surprise Chart */}
+          <div>
+            <SoloChart
+              titles={{
+                main: "Surprise over Time for this session",
+                x: "Time",
+                y: "Likeliness of Surprise",
+                tooltip: "Time {x}s: {y}% Surprise"
+              }}
+              dataPoints={dataPointsSurprise}
               startTimestamp={this.state.session.startTimestamp}
               endTimestamp={this.state.session.endTimestamp}
             />
