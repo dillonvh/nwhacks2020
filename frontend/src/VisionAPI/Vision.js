@@ -30,7 +30,7 @@ async function getVisionAPIResults(base64ImageString) {
   try {
     const face = data.responses[0].faceAnnotations[0];
     const faceData = {
-      midpointHeight: face.landmarks[6].position.y,
+      noseHeight: face.landmarks[7].position.y,
       joy: face.joyLikelihood,
       sorrow: face.sorrowLikelihood,
       anger: face.angerLikelihood,
@@ -38,10 +38,9 @@ async function getVisionAPIResults(base64ImageString) {
     };
 
     return faceData;
-  } catch(e) {
+  } catch (e) {
     return {};
   }
-
 }
 
 export default getVisionAPIResults;

@@ -1,19 +1,15 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  CardHeader
-} from "@material-ui/core";
+import { Card, CardContent, CardMedia, CardHeader } from "@material-ui/core";
 import dbFunctions from "./Database/Firebase";
-import Chart from "./Chart";
+import MultiChart from "./MultiChart";
+import SoloChart from "./SoloChart";
 
 const likelinessValueScaleMap = {
-  "VERY_UNLIKELY": 10,
-  "UNLIKELY": 30,
-  "POSSIBLE": 50,
-  "LIKELY": 70,
-  "VERY_LIKELY": 90
+  VERY_UNLIKELY: 10,
+  UNLIKELY: 30,
+  POSSIBLE: 50,
+  LIKELY: 70,
+  VERY_LIKELY: 90
 };
 
 class Display extends React.Component {
@@ -24,50 +20,146 @@ class Display extends React.Component {
     };
   }
 
-  async componentDidMount () {
+  async componentDidMount() {
     console.log("component did mount, sessionId:", this.props.sessionId);
-    const session = await dbFunctions.getSession(this.props.db, this.props.sessionId);
+    const session = await dbFunctions.getSession(
+      this.props.db,
+      this.props.sessionId
+    );
     this.setState({
       session
     });
   }
 
-  render () {
+  render() {
     const dataPointsAnger = [];
     const dataPointsJoy = [];
     const dataPointsSorrow = [];
     const dataPointsSurprise = [];
+    const dataPointsPosture = [];
 
     let sessionChartCardJSX = <h1>No session yet! Can't make a chart</h1>;
 
-    if (this.state.session && this.state.session.sessionData && this.state.session.sessionData.length !== 0) {
-
+    if (
+      this.state.session &&
+      this.state.session.sessionData &&
+      this.state.session.sessionData.length !== 0
+    ) {
       this.state.session.sessionData.forEach((dataEntry, index) => {
-        dataPointsAnger.push({x: index * 10, y: likelinessValueScaleMap[dataEntry.visionAPIData.anger]});
-        dataPointsJoy.push({x: index * 10, y: likelinessValueScaleMap[dataEntry.visionAPIData.joy]});
-        dataPointsSorrow.push({x: index * 10, y: likelinessValueScaleMap[dataEntry.visionAPIData.sorrow]});
-        dataPointsSurprise.push({x: index * 10, y: likelinessValueScaleMap[dataEntry.visionAPIData.surprise]});
+        dataPointsAnger.push({
+          x: index * 10,
+          y: likelinessValueScaleMap[dataEntry.visionAPIData.anger]
+        });
+        dataPointsJoy.push({
+          x: index * 10,
+          y: likelinessValueScaleMap[dataEntry.visionAPIData.joy]
+        });
+        dataPointsSorrow.push({
+          x: index * 10,
+          y: likelinessValueScaleMap[dataEntry.visionAPIData.sorrow]
+        });
+        dataPointsSurprise.push({
+          x: index * 10,
+          y: likelinessValueScaleMap[dataEntry.visionAPIData.surprise]
+        });
+        dataPointsPosture.push({
+          x: index * 10,
+          y: 0.5 * (200 - dataEntry.visionAPIData.noseHeight)
+        });
       });
 
       sessionChartCardJSX = (
         <div>
-          <Chart
-            dataPointsAnger={dataPointsAnger}
-            dataPointsJoy={dataPointsJoy}
-            dataPointsSorrow={dataPointsSorrow}
-            dataPointsSurprise={dataPointsSurprise}
-            startTimestamp={this.state.session.startTimestamp}
-            endTimestamp={this.state.session.endTimestamp}
-          />
+          <div>
+            <MultiChart
+              dataPointsAnger={dataPointsAnger}
+              dataPointsJoy={dataPointsJoy}
+              dataPointsSorrow={dataPointsSorrow}
+              dataPointsSurprise={dataPointsSurprise}
+              startTimestamp={this.state.session.startTimestamp}
+              endTimestamp={this.state.session.endTimestamp}
+            />
+          </div>
+
+          {/* Posture Chart */}
+          <div>
+            <SoloChart
+              titles={{
+                main: "Posture Indicator for this session",
+                x: "Time",
+                y: "Nose Height in Frame",
+                tooltip: "Time {x}s: {y}% Eye Level"
+              }}
+              dataPoints={dataPointsPosture}
+              startTimestamp={this.state.session.startTimestamp}
+              endTimestamp={this.state.session.endTimestamp}
+            />
+          </div>
+
+          {/* Joy Chart */}
+          <div>
+            <SoloChart
+              titles={{
+                main: "Joy over Time for this session",
+                x: "Time",
+                y: "Likeliness of Joy",
+                tooltip: "Time {x}s: {y}% Joy"
+              }}
+              dataPoints={dataPointsJoy}
+              startTimestamp={this.state.session.startTimestamp}
+              endTimestamp={this.state.session.endTimestamp}
+            />
+          </div>
+
+          {/* Anger Chart */}
+          <div>
+            <SoloChart
+              titles={{
+                main: "Anger over Time for this session",
+                x: "Time",
+                y: "Likeliness of Anger",
+                tooltip: "Time {x}s: {y}% Anger"
+              }}
+              dataPoints={dataPointsAnger}
+              startTimestamp={this.state.session.startTimestamp}
+              endTimestamp={this.state.session.endTimestamp}
+            />
+          </div>
+
+          {/* Sorrow Chart */}
+          <div>
+            <SoloChart
+              titles={{
+                main: "Sorrow over Time for this session",
+                x: "Time",
+                y: "Likeliness of Sorrow",
+                tooltip: "Time {x}s: {y}% Sorrow"
+              }}
+              dataPoints={dataPointsSorrow}
+              startTimestamp={this.state.session.startTimestamp}
+              endTimestamp={this.state.session.endTimestamp}
+            />
+          </div>
+
+          {/* Surprise Chart */}
+          <div>
+            <SoloChart
+              titles={{
+                main: "Surprise over Time for this session",
+                x: "Time",
+                y: "Likeliness of Surprise",
+                tooltip: "Time {x}s: {y}% Surprise"
+              }}
+              dataPoints={dataPointsSurprise}
+              startTimestamp={this.state.session.startTimestamp}
+              endTimestamp={this.state.session.endTimestamp}
+            />
+          </div>
         </div>
       );
     }
 
-    return (
-      <div>
-        {sessionChartCardJSX}
-      </div>
-    )
+    return <div>{sessionChartCardJSX}</div>;
   }
 }
 

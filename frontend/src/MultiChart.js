@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import CanvasJSReact from "./canvasjs.react";
 
 const moment = require("moment");
@@ -7,7 +7,10 @@ export default function Chart(props) {
   const CanvasJSChart = CanvasJSReact.CanvasJSChart;
   const endTimestampMoment = moment(props.endTimestamp);
   const startTimestampMoment = moment(props.startTimestamp);
-  const timeDiffInSeconds = endTimestampMoment.diff(startTimestampMoment, 'seconds');
+  const timeDiffInSeconds = endTimestampMoment.diff(
+    startTimestampMoment,
+    "seconds"
+  );
 
   const options = {
     animationEnabled: true,
@@ -47,7 +50,6 @@ export default function Chart(props) {
         toolTipContent: "Time {x}s: {y}% Surprised",
         dataPoints: props.dataPointsSurprise
       }
-
     ]
   };
 
@@ -59,5 +61,5 @@ export default function Chart(props) {
       />
       {/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
     </div>
-  )
+  );
 }
