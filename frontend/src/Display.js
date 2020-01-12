@@ -6,38 +6,62 @@ import {
   CardHeader
 } from "@material-ui/core";
 import dbFunctions from "./Database/Firebase";
+import Chart from "./Chart";
+
+const likelinessValueScaleMap = {
+  "VERY_UNLIKELY": 10,
+  "UNLIKELY": 30,
+  "POSSIBLE": 50,
+  "LIKELY": 70,
+  "VERY LIKELY": 90
+};
 
 class Display extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sessionData: []
+      session: {}
     };
   }
 
-  componentDidMount () {
+  async componentDidMount () {
     // TODO: Get charts to display
-    const sessionData = dbFunctions.getSessionData(this.props.sessionId);
+    const session = await dbFunctions.getSession(this.props.sessionId);
     this.setState({
-      sessionData
+      session
     });
   }
 
   render () {
-    const sessionDataCardsJSX = this.state.sessionData.map(sessionDataObj => {
-      return (
-        <Card>
-          <CardHeader>
-            This is a Card!
-          </CardHeader>
-        </Card>
-      )
+    const dataPointsAnger = [];
+    const dataPointsJoy = [];
+    const dataPointsSorrow = [];
+    const dataPointsSurprise = [];
+    this.state.session.sessionData.forEach((dataEntry, index) => {
+      dataPointsAnger.push({x: index * 10, y: likelinessValueScaleMap[dataEntry.sessionData.visionAPI.anger]});
+      dataPointsJoy.push({x: index * 10, y: likelinessValueScaleMap[dataEntry.sessionData.visionAPI.joy]});
+      dataPointsSorrow.push({x: index * 10, y: likelinessValueScaleMap[dataEntry.sessionData.visionAPI.sorrow]});
+      dataPointsSurprise.push({x: index * 10, y: likelinessValueScaleMap[dataEntry.sessionData.visionAPI.surprise]});
     });
+    const sessionChartCardJSX = (
+      <Card>
+        <Chart
+          dataPointsAnger={dataPointsAnger}
+          dataPointsJoy={dataPointsJoy}
+          dataPointsSorrow={dataPointsSorrow}
+          dataPointsSurprise={dataPointsSurprise}
+          startTimestamp={this.state.session.startTimestamp}
+          endTimestamp={this.state.session.endTimestamp}
+        />
+      </Card>
+    );
 
     return (
       <div>
-        {sessionDataCardsJSX}
+        {sessionChartCardJSX}
       </div>
     )
   }
 }
+
+export default Display;

@@ -6,6 +6,7 @@ import StopIcon from "@material-ui/icons/HighlightOff";
 import WebcamCapture from "./WebcamCapture";
 import dbFunctions from "./Database/Firebase";
 import SelectForms from "./SelectForms.js"
+import Display from "./Display";
 
 class App extends React.Component {
   constructor(props) {
@@ -14,7 +15,9 @@ class App extends React.Component {
       imageData: "",
       db: null,
       sessionLive: false,
-      sessionID: ""
+      sessionID: null,
+      // Hack: When session is complete
+      sessionComplete: false
     };
   }
 
@@ -44,7 +47,7 @@ class App extends React.Component {
     await dbFunctions.endSession(this.state.db, this.state.sessionID);
     this.setState({
       sessionLive: !this.state.sessionLive,
-      sessionID: ""
+      sessionComplete: true
     });
   };
 
@@ -52,8 +55,13 @@ class App extends React.Component {
     let sessionButtonJSX = null;
     let webcamCaptureJSX = null;
     let selectFormsJSX = null;
+    let displayJSX = null;
 
-    if (this.state.sessionLive) {
+    if (this.state.sessionComplete) {
+      displayJSX = <Display
+        sessionId={this.state.sessionId}
+      />
+    } else if (this.state.sessionLive && !this.state.sessionComplete) {
       webcamCaptureJSX = (
         <WebcamCapture
           db={this.state.db}
@@ -94,6 +102,7 @@ class App extends React.Component {
           {selectFormsJSX}
           {sessionButtonJSX}
           {webcamCaptureJSX}
+          {displayJSX}
         </div>
       </div>
     );

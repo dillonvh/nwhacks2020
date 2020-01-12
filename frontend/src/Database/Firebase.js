@@ -17,7 +17,7 @@ function initFirebase() {
 
 // Creates a new session with an empty sessionData array
 async function createSession(db) {
-  const startTimestamp = moment().format("MMDDYYYY-HHmmss");
+  const startTimestamp = moment().format("YYYY-MM-DD HH:mm:ss");
   const maxSessionId = await getMaxSessionId(db);
   console.log(maxSessionId);
   const newSessionId = parseInt(maxSessionId) + 1;
@@ -39,7 +39,7 @@ async function createSession(db) {
 
 // Ends a session by writing the endTimestamp to the session
 async function endSession(db, sessionID) {
-  const endTimestamp = moment().format("MMDDYYYY-HHmmss");
+  const endTimestamp = moment().format("YYYY-MM-DD HH:mm:ss");
   const sessionIdEntryKey = "session" + sessionID.toString();
   const sessionsRef = db.collection("sessions");
   sessionsRef.doc(sessionIdEntryKey).update({
@@ -87,11 +87,11 @@ async function writeSessionData(db, base64ImageString, sessionId) {
 }
 
 // Get the sessionData array for a session
-async function getSessionData(db, sessionId) {
+async function getSession(db, sessionId) {
   const sessionsRef = db.collection("sessions");
   const sessionIdEntryKey = "session" + sessionId.toString();
   const sessionDoc = await sessionsRef.doc(sessionIdEntryKey).get();
-  return Array.from(sessionDoc.data().sessionData);
+  return sessionDoc.data();
 }
 
 export default {
@@ -99,5 +99,5 @@ export default {
   createSession,
   endSession,
   writeSessionData,
-  getSessionData
+  getSession
 }
