@@ -1,6 +1,3 @@
-const auth = require("google-auth-library");
-const vision = require("@google-cloud/vision");
-
 async function getVisionAPIResults(base64ImageString) {
   const response = await fetch(
     "https://vision.googleapis.com/v1/images:annotate?key=AIzaSyDhXuoXmqXVRD9IEhqKKK_SPt77A68Ajgs",
@@ -30,17 +27,21 @@ async function getVisionAPIResults(base64ImageString) {
 
   const data = await response.json();
 
-  const face = data.responses[0].faceAnnotations[0];
+  try {
+    const face = data.responses[0].faceAnnotations[0];
+    const faceData = {
+      midpointHeight: face.landmarks[6].position.y,
+      joy: face.joyLikelihood,
+      sorrow: face.sorrowLikelihood,
+      anger: face.angerLikelihood,
+      surprise: face.surpriseLikelihood
+    };
 
-  const faceData = {
-    midpointHeight: face.landmarks[6].position.y,
-    joy: face.joyLikelihood,
-    sorrow: face.sorrowLikelihood,
-    anger: face.angerLikelihood,
-    surprise: face.surpriseLikelihood
-  };
+    return faceData;
+  } catch(e) {
 
-  return faceData;
+  }
+
 }
 
 export default getVisionAPIResults;
