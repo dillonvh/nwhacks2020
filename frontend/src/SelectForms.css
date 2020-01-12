@@ -1,0 +1,19 @@
+#demo-simple-select-required-label {
+  color: white;
+}
+
+#helper-text {
+  color: white;
+}
+
+.MuiSelect-icon {
+  color: white !important;
+}
+
+.MuiInput-underline:before {
+  border-color: white !important;
+}
+
+label + .MuiInput-formControl {
+  color: white;
+}
