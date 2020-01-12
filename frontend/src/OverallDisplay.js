@@ -31,7 +31,7 @@ class OverallDisplay extends React.Component {
       if (session.initialSessionData.ideSelection !== "") {
         dataPointsIDEs.push({
           y: session.totalSessionTime,
-          label: session.initialSessionData.deSelection
+          label: session.initialSessionData.ideSelection
         });
       }
     });
