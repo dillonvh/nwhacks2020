@@ -25,7 +25,16 @@ async function createSession(db) {
     endTimestamp: "",
     sessionData: {}
   });
-  console.log("Session created!");
+  console.log("Session created!", newSessionId);
+  return newSessionId;
+}
+
+async function updateSession(db, sessionID) {
+  const endTimestamp = moment().format("MMDDYYYY-HHmmss");
+  db.collection("sessions").doc("session" + sessionID.toString()).update({
+    endTimestamp: endTimestamp
+  });
+  console.log("Session ended!", sessionID);
 }
 
 async function getMaxSessionId(db) {
@@ -46,5 +55,6 @@ async function getMaxSessionId(db) {
 
 export default {
   initFirebase,
-  createSession
+  createSession,
+  updateSession
 }

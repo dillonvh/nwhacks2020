@@ -12,7 +12,8 @@ class App extends React.Component {
     this.state = {
       imageData: "",
       db: null,
-      sessionLive: false
+      sessionLive: false,
+      sessionID: ""
     };
   }
 
@@ -30,16 +31,19 @@ class App extends React.Component {
     });
   };
 
-  handleStartSessionClick = () => {
+  handleStartSessionClick = async () => {
+    const newSessionID = await dbFunctions.createSession(this.state.db);
     this.setState({
-      sessionLive: !this.state.sessionLive
+      sessionLive: !this.state.sessionLive,
+      sessionID: newSessionID
     });
-    dbFunctions.createSession(this.state.db);
   };
 
-  handleStopSessionClick = () => {
+  handleStopSessionClick = async () => {
+    await dbFunctions.updateSession(this.state.db, this.state.sessionID);
     this.setState({
-      sessionLive: !this.state.sessionLive
+      sessionLive: !this.state.sessionLive,
+      sessionID: ""
     });
   };
 
