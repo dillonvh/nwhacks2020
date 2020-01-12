@@ -5,7 +5,7 @@ import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import StopIcon from "@material-ui/icons/HighlightOff";
 import WebcamCapture from "./WebcamCapture";
 import dbFunctions from "./Database/Firebase";
-import SelectForms from "./SelectForms.js"
+import SelectForm from "./SelectForm.js"
 import Display from "./Display";
 
 class App extends React.Component {
@@ -17,8 +17,29 @@ class App extends React.Component {
       sessionLive: false,
       sessionId: null,
       // Hack: When session is complete
-      sessionComplete: false
+      sessionComplete: false,
+      languageSelection: "",
+      ideSelection: "",
+      predictedHoursSelection: ""
     };
+  }
+
+  handleChangeLanguage = (e) => {
+    this.setState({
+      languageSelection: e.target.value
+    });
+  }
+
+  handleChangeIDE = (e) => {
+    this.setState({
+      ideSelection: e.target.value
+    });
+  }
+
+  handleChangePredictedHours = (e) => {
+    this.setState({
+      predictedHoursSelection: e.target.value
+    });
   }
 
   componentDidMount() {
@@ -54,7 +75,7 @@ class App extends React.Component {
   render() {
     let sessionButtonJSX = null;
     let webcamCaptureJSX = null;
-    let selectFormsJSX = null;
+    let selectFormJSX = null;
     let displayJSX = null;
     let analyzeHeaderJSX = null;
 
@@ -85,7 +106,11 @@ class App extends React.Component {
       );
       analyzeHeaderJSX = <h3>You're on camera! Pictures of your session are being analyzed</h3>;
     } else {
-      selectFormsJSX = <SelectForms />
+      selectFormJSX = <SelectForm
+        handleChangeLanguage={this.handleChangeLanguage}
+        handleChangeIDE={this.handleChangeIDE}
+        handleChangePredictedHours={this.handleChangePredictedHours}
+      />;
       sessionButtonJSX = (
         <Button
           onClick={this.handleStartSessionClick}
@@ -104,7 +129,7 @@ class App extends React.Component {
         <div className="Main">
           <h1>HackerHelper</h1>
           {analyzeHeaderJSX}
-          {selectFormsJSX}
+          {selectFormJSX}
           {sessionButtonJSX}
           {webcamCaptureJSX}
           {displayJSX}

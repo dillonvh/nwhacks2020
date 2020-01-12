@@ -50,8 +50,11 @@
   position: relative !important;
 }
 
-.session-chart-wrapper-header {
-
+.form-control-wrapper-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 30px;
 }
 
 
