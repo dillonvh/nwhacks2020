@@ -30,21 +30,23 @@ async function getVisionAPIResults(base64ImageString) {
 
   const data = await response.json();
 
-  const face = data.responses[0].faceAnnotations[0];
+  try {
+    const face = data.responses[0].faceAnnotations[0];
 
-  const faceData = {
-    midpointHeight: face.landmarks[6].y,
-    joy: face.joyLikelihood,
-    sorrow: face.sorrowLikelihood,
-    anger: face.angerLikelihood,
-    surprise: face.surpriseLikelihood
-  };
+    const faceData = {
+      midpointHeight: face.landmarks[6].y,
+      joy: face.joyLikelihood,
+      sorrow: face.sorrowLikelihood,
+      anger: face.angerLikelihood,
+      surprise: face.surpriseLikelihood
+    };
 
-  for (var key in faceData) {
-    console.log(key + ": " + faceData[key]);
-  }
+    for (var key in faceData) {
+      console.log(key + ": " + faceData[key]);
+    }
 
-  return faceData;
+    return faceData;
+  } catch (e) {}
 }
 
 export default getVisionAPIResults;
