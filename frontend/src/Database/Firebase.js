@@ -76,6 +76,8 @@ async function writeSessionData(db, base64ImageString, sessionId) {
     base64ImageString,
     visionAPIData
   });
+  const sessionsRef = db.collection('sessions');
+  const sessionIdEntryKey = "session" + sessionId.toString();
   sessionsRef.doc(sessionIdEntryKey).update({
     sessionData
   });
