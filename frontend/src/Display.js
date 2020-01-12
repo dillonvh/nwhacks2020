@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardContent, CardMedia, CardHeader } from "@material-ui/core";
 import dbFunctions from "./Database/Firebase";
 import MultiChart from "./MultiChart";
+import PieChart from "./PieChart";
 import SoloChart from "./SoloChart";
 
 const likelinessValueScaleMap = {
@@ -36,6 +37,11 @@ class Display extends React.Component {
     const dataPointsSorrow = [];
     const dataPointsSurprise = [];
     const dataPointsPosture = [];
+    var angerTotal = 0;
+    var joyTotal = 0;
+    var sorrowTotal = 0;
+    var surpriseTotal = 0;
+    var grandTotal = 0;
 
     let sessionChartCardJSX = <h3>Oh no! There's no data here. Refresh the page to try again.</h3>;
 
@@ -65,6 +71,16 @@ class Display extends React.Component {
           x: index * 10,
           y: 0.5 * (200 - dataEntry.visionAPIData.noseHeight)
         });
+
+        {
+          /* Pie Chart Values */
+        }
+        angerTotal += likelinessValueScaleMap[dataEntry.visionAPIData.anger];
+        joyTotal += likelinessValueScaleMap[dataEntry.visionAPIData.joy];
+        sorrowTotal += likelinessValueScaleMap[dataEntry.visionAPIData.sorrow];
+        surpriseTotal +=
+          likelinessValueScaleMap[dataEntry.visionAPIData.surprise];
+        grandTotal = angerTotal + joyTotal + sorrowTotal + surpriseTotal;
       });
 
       sessionChartCardJSX = (
@@ -152,6 +168,19 @@ class Display extends React.Component {
               dataPoints={dataPointsSurprise}
               startTimestamp={this.state.session.startTimestamp}
               endTimestamp={this.state.session.endTimestamp}
+            />
+          </div>
+
+          {/* Pie Chart */}
+          <div>
+            <PieChart
+              values={{
+                anger: angerTotal,
+                joy: joyTotal,
+                sorrow: sorrowTotal,
+                surprise: surpriseTotal,
+                total: grandTotal
+              }}
             />
           </div>
         </div>

@@ -3,7 +3,7 @@ import CanvasJSReact from "./canvasjs.react";
 
 const moment = require("moment");
 
-export default function Chart(props) {
+export default function MultiChart(props) {
   const CanvasJSChart = CanvasJSReact.CanvasJSChart;
   const endTimestampMoment = moment(props.endTimestamp);
   const startTimestampMoment = moment(props.startTimestamp);
