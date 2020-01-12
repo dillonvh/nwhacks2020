@@ -17,10 +17,10 @@ export default function Chart(props) {
     exportEnabled: true,
     theme: "light2", // "light1", "dark1", "dark2"
     title: {
-      text: "Posture over Time for this session"
+      text: "Emotions over Time for this session"
     },
     axisY: {
-      title: "Eye Level",
+      title: "Likeliness of certain emotions",
       includeZero: false,
       suffix: "%"
     },
@@ -32,8 +32,23 @@ export default function Chart(props) {
     data: [
       {
         type: "line",
-        toolTipContent: "Time {x}s: {y}% Eye Level", // TODO: Proper timestamp intervals: hours if it makes sense, or minutes
-        dataPoints: props.dataPointsPosture
+        toolTipContent: "Time {x}s: {y}% Angry", // TODO: Proper timestamp intervals: hours if it makes sense, or minutes
+        dataPoints: props.dataPointsAnger
+      },
+      {
+        type: "line",
+        toolTipContent: "Time {x}s: {y}% Joyous",
+        dataPoints: props.dataPointsJoy
+      },
+      {
+        type: "line",
+        toolTipContent: "Time {x}s: {y}% Sad",
+        dataPoints: props.dataPointsSorrow
+      },
+      {
+        type: "line",
+        toolTipContent: "Time {x}s: {y}% Surprised",
+        dataPoints: props.dataPointsSurprise
       }
     ]
   };

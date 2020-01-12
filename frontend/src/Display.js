@@ -1,8 +1,8 @@
 import React from "react";
 import { Card, CardContent, CardMedia, CardHeader } from "@material-ui/core";
 import dbFunctions from "./Database/Firebase";
-import EmotionChart from "./EmotionChart";
-import PostureChart from "./PostureChart";
+import MultiChart from "./MultiChart";
+import SoloChart from "./SoloChart";
 
 const likelinessValueScaleMap = {
   VERY_UNLIKELY: 10,
@@ -64,14 +64,14 @@ class Display extends React.Component {
         });
         dataPointsPosture.push({
           x: index * 10,
-          y: dataEntry.visionAPIData.midpointHeight
+          y: 0.5 * (200 - dataEntry.visionAPIData.noseHeight)
         });
       });
 
       sessionChartCardJSX = (
         <div>
           <div>
-            <EmotionChart
+            <MultiChart
               dataPointsAnger={dataPointsAnger}
               dataPointsJoy={dataPointsJoy}
               dataPointsSorrow={dataPointsSorrow}
@@ -81,8 +81,13 @@ class Display extends React.Component {
             />
           </div>
           <div>
-            <PostureChart
-              dataPointsPosture={dataPointsPosture}
+            <SoloChart
+              titles={{
+                main: "Posture Indicator for this session",
+                x: "Time",
+                y: "Nose Height in Frame"
+              }}
+              dataPoints={dataPointsPosture}
               startTimestamp={this.state.session.startTimestamp}
               endTimestamp={this.state.session.endTimestamp}
             />
