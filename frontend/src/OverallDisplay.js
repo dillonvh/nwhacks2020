@@ -112,7 +112,6 @@ class OverallDisplay extends React.Component {
 
     return (
       <div className="display-wrapper">
-        <h3>Here are some visualizations that analyze all of your sessions:</h3>
         {sessionOverallDisplayChartJSX}
       </div>
     )
