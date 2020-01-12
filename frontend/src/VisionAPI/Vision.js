@@ -12,7 +12,6 @@ async function getVisionAPIResults(base64ImageString) {
 
   const faces = result.faceAnnotations;
   console.log("Labels:");
-  labels.forEach(label => console.log(label.description));
 }
 
 export default getVisionAPIResults;
