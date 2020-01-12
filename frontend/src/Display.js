@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardContent, CardMedia, CardHeader } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import dbFunctions from "./Database/Firebase";
 import MultiChart from "./MultiChart";
 import PieChart from "./PieChart";
@@ -37,11 +37,11 @@ class Display extends React.Component {
     const dataPointsSorrow = [];
     const dataPointsSurprise = [];
     const dataPointsPosture = [];
-    var angerTotal = 0;
-    var joyTotal = 0;
-    var sorrowTotal = 0;
-    var surpriseTotal = 0;
-    var grandTotal = 0;
+    let angerTotal = 0;
+    let joyTotal = 0;
+    let sorrowTotal = 0;
+    let surpriseTotal = 0;
+    let grandTotal = 0;
 
     let sessionChartCardJSX = <h3>Oh no! There's no data here. Refresh the page to try again.</h3>;
 
@@ -172,8 +172,9 @@ class Display extends React.Component {
           </div>
 
           {/* Pie Chart */}
-          <div>
+          <div className="session-chart-wrapper-child">
             <PieChart
+              className="pie-chart"
               values={{
                 anger: angerTotal,
                 joy: joyTotal,
@@ -187,7 +188,11 @@ class Display extends React.Component {
       );
     }
 
-    return <div className="display-wrapper">{sessionChartCardJSX}</div>;
+    return (
+      <div className="display-wrapper">
+        {sessionChartCardJSX}
+      </div>
+    );
   }
 }
 

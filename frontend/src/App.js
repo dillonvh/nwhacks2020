@@ -5,8 +5,9 @@ import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import StopIcon from "@material-ui/icons/HighlightOff";
 import WebcamCapture from "./WebcamCapture";
 import dbFunctions from "./Database/Firebase";
-import SelectForm from "./SelectForm.js"
+import SelectForm from "./SelectForm"
 import Display from "./Display";
+import OverallDisplay from "./OverallDisplay";
 
 class App extends React.Component {
   constructor(props) {
@@ -18,9 +19,11 @@ class App extends React.Component {
       sessionId: null,
       // Hack: When session is complete
       sessionComplete: false,
+      showSessionDisplay: false,
       languageSelection: "",
       ideSelection: "",
-      predictedHoursSelection: ""
+      predictedHoursSelection: "",
+      showOverallDisplay: false
     };
   }
 
@@ -28,19 +31,19 @@ class App extends React.Component {
     this.setState({
       languageSelection: e.target.value
     });
-  }
+  };
 
   handleChangeIDE = (e) => {
     this.setState({
       ideSelection: e.target.value
     });
-  }
+  };
 
   handleChangePredictedHours = (e) => {
     this.setState({
       predictedHoursSelection: e.target.value
     });
-  }
+  };
 
   componentDidMount() {
     // Initialize the database connection here
@@ -54,6 +57,20 @@ class App extends React.Component {
     this.setState({
       imageData
     });
+  };
+
+  handleOpenOverallDisplay = () => {
+    this.setState({
+      showDisplay: false,
+      showOverallDisplay: true
+    })
+  };
+
+  handleBackToDisplay = () => {
+    this.setState({
+      showDisplay: true,
+      showOverallDisplay: false
+    })
   };
 
   handleStartSessionClick = async () => {
@@ -73,7 +90,8 @@ class App extends React.Component {
     await dbFunctions.endSession(this.state.db, this.state.sessionId);
     this.setState({
       sessionLive: !this.state.sessionLive,
-      sessionComplete: true
+      sessionComplete: true,
+      showDisplay: true
     });
   };
 
@@ -83,13 +101,30 @@ class App extends React.Component {
     let selectFormJSX = null;
     let displayJSX = null;
     let analyzeHeaderJSX = null;
+    let overallDisplayJSX = null;
+    let openOverallDisplayButtonJSX = null;
 
-    if (this.state.sessionComplete) {
+    if (this.state.sessionComplete && this.state.showDisplay) {
       analyzeHeaderJSX = <h3>Analyze your session with auto-generated visualizations</h3>
       displayJSX = <Display
         db={this.state.db}
         sessionId={this.state.sessionId}
       />
+      openOverallDisplayButtonJSX = (
+        <Button
+          onClick={this.handleOpenOverallDisplay}
+          variant="contained"
+          color="primary"
+          size="large"
+        >
+          See analytics for all sessions
+        </Button>
+      );
+    } else if (this.state.sessionComplete && this.state.showOverallDisplay) {
+      overallDisplayJSX = (
+        <OverallDisplay />
+      );
+
     } else if (this.state.sessionLive && !this.state.sessionComplete) {
       webcamCaptureJSX = (
         <WebcamCapture
@@ -133,11 +168,13 @@ class App extends React.Component {
       <div className="App">
         <div className="Main">
           <h1>HackerHelper</h1>
+          {openOverallDisplayButtonJSX}
           {analyzeHeaderJSX}
           {selectFormJSX}
           {sessionButtonJSX}
           {webcamCaptureJSX}
           {displayJSX}
+          {overallDisplayJSX}
         </div>
       </div>
     );
