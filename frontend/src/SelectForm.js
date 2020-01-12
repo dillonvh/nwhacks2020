@@ -27,9 +27,6 @@ class SelectForm extends React.Component {
             id="demo-simple-select-required"
             onChange={this.props.handleChangeLanguage}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
             <MenuItem value={"C++"}>C++</MenuItem>
             <MenuItem value={"Go"}>Go</MenuItem>
             <MenuItem value={"JavaScript"}>JavaScript</MenuItem>
@@ -44,9 +41,6 @@ class SelectForm extends React.Component {
             id="demo-simple-select-required"
             onChange={this.props.handleChangeIDE}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
             <MenuItem value={"Atom"}>Atom</MenuItem>
             <MenuItem value={"Eclipse"}>Eclipse</MenuItem>
             <MenuItem value={"IntelliJ"}>IntelliJ</MenuItem>
@@ -63,9 +57,6 @@ class SelectForm extends React.Component {
             id="demo-simple-select-required"
             onChange={this.props.handleChangePredictedHours}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
             <MenuItem value={"1"}>1</MenuItem>
             <MenuItem value={"2"}>2</MenuItem>
             <MenuItem value={"3"}>3</MenuItem>

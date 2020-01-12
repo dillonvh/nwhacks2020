@@ -105,11 +105,11 @@ class App extends React.Component {
     let openOverallDisplayButtonJSX = null;
 
     if (this.state.sessionComplete && this.state.showDisplay) {
-      analyzeHeaderJSX = <h3>Analyze your session with auto-generated visualizations</h3>
+      analyzeHeaderJSX = <h3>Analyze your session with auto-generated visualizations!</h3>;
       displayJSX = <Display
         db={this.state.db}
         sessionId={this.state.sessionId}
-      />
+      />;
       openOverallDisplayButtonJSX = (
         <Button
           onClick={this.handleOpenOverallDisplay}
@@ -144,7 +144,7 @@ class App extends React.Component {
           <StopIcon />
         </Button>
       );
-      analyzeHeaderJSX = <h3>You're on camera! Pictures of your session are being analyzed</h3>;
+      analyzeHeaderJSX = <h3>You're on camera! Pictures of your session are being analyzed.</h3>;
     } else {
       selectFormJSX = <SelectForm
         handleChangeLanguage={this.handleChangeLanguage}

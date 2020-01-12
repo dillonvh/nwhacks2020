@@ -10,6 +10,7 @@ class OverallDisplay extends React.Component {
   }
 
   render () {
+    
     return (
       <div>
         <h3>Here are some visualizations that analyze all of your sessions:</h3>

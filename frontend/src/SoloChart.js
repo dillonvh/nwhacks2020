@@ -4,6 +4,7 @@ import CanvasJSReact from "./canvasjs.react";
 const moment = require("moment");
 
 export default function SoloChart(props) {
+  console.log("inside solochart: ", props.endTimestamp);
   const CanvasJSChart = CanvasJSReact.CanvasJSChart;
   const endTimestampMoment = moment(props.endTimestamp);
   const startTimestampMoment = moment(props.startTimestamp);
@@ -11,6 +12,7 @@ export default function SoloChart(props) {
     startTimestampMoment,
     "seconds"
   );
+  console.log(timeDiffInSeconds);
 
   const options = {
     animationEnabled: true,

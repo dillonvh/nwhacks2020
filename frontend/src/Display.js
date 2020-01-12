@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "@material-ui/core";
 import dbFunctions from "./Database/Firebase";
 import MultiChart from "./MultiChart";
 import PieChart from "./PieChart";
@@ -29,6 +28,7 @@ class Display extends React.Component {
     this.setState({
       session
     });
+    console.log(session);
   }
 
   render() {
@@ -83,6 +83,7 @@ class Display extends React.Component {
         grandTotal = angerTotal + joyTotal + sorrowTotal + surpriseTotal;
       });
 
+      console.log("inside display: ", this.state.session.endTimestamp);
       sessionChartCardJSX = (
         <div className="session-chart-wrapper">
           <div className="session-chart-wrapper-child">
