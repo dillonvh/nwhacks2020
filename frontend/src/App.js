@@ -30,11 +30,17 @@ class App extends React.Component {
     });
   };
 
-  handleSessionClick = () => {
+  handleStartSessionClick = () => {
     this.setState({
       sessionLive: !this.state.sessionLive
     });
     dbFunctions.createSession(this.state.db);
+  };
+
+  handleStopSessionClick = () => {
+    this.setState({
+      sessionLive: !this.state.sessionLive
+    });
   };
 
   render() {
@@ -43,11 +49,11 @@ class App extends React.Component {
 
     if (this.state.sessionLive) {
       webcamCaptureJSX = <WebcamCapture setImageDataAppState={this.setImageDataAppState} />;
-      sessionButtonJSX = <Button onClick={this.handleSessionClick} variant="contained" color="primary" size="large">
+      sessionButtonJSX = <Button onClick={this.handleStopSessionClick} variant="contained" color="primary" size="large">
         Stop Session &nbsp;
       </Button>;
     } else {
-      sessionButtonJSX = <Button onClick={this.handleSessionClick} variant="contained" color="primary" size="large">
+      sessionButtonJSX = <Button onClick={this.handleStartSessionClick} variant="contained" color="primary" size="large">
         Start Session &nbsp;
         <PlayCircleOutlineIcon />
       </Button>;
