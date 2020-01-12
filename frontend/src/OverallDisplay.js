@@ -19,18 +19,66 @@ class OverallDisplay extends React.Component {
   }
 
   render () {
-    const dataPointsLanguages = [];
-    const dataPointsIDEs = [];
+    let dataPointsLanguages = [];
+    let dataPointsIDEs = [];
     this.state.sessions.forEach(session => {
+      if (session.initialSessionData.languageSelection !== "") {
+        dataPointsLanguages.push({
+          y: session.totalSessionTime,
+          label: session.initialSessionData.languageSelection
+        });
+      }
+      if (session.initialSessionData.ideSelection !== "") {
+        dataPointsIDEs.push({
+          y: session.totalSessionTime,
+          label: session.initialSessionData.deSelection
+        });
+      }
+    });
+
+    const aggregatedDataPointsLanguages = {
+      "C++": 0,
+      "Python": 0,
+      "Scala": 0,
+      "JavaScript": 0,
+      "Go": 0,
+      "": 0
+    };
+
+    const aggregatedDataPointsIDEs = {
+      "Atom": 0,
+      "Eclipse": 0,
+      "IntelliJ": 0,
+      "PyCharm": 0,
+      "Visual Studio": 0,
+      "": 0
+    };
+
+    dataPointsLanguages.forEach(dataPoint => {
+      aggregatedDataPointsLanguages[dataPoint.label] += dataPoint.y;
+    });
+
+    dataPointsIDEs.forEach(dataPoint => {
+      aggregatedDataPointsIDEs[dataPoint.label] += dataPoint.y;
+    });
+
+    dataPointsLanguages = [];
+    dataPointsIDEs = [];
+
+    Object.keys(aggregatedDataPointsLanguages).forEach(key => {
       dataPointsLanguages.push({
-        y: session.totalSessionTime,
-        label: session.initialSessionData.languageSelection
-      });
-      dataPointsIDEs.push({
-        y: session.totalSessionTime,
-        label: session.initialSessionData.IdeSelection
+        label: key,
+        y: aggregatedDataPointsLanguages[key]
       });
     });
+
+    Object.keys(aggregatedDataPointsIDEs).forEach(key => {
+      dataPointsIDEs.push({
+        label: key,
+        y: aggregatedDataPointsIDEs[key]
+      });
+    });
+
 
     let sessionOverallDisplayChartJSX = <h3>Visualizations are loading</h3>;
 
@@ -42,8 +90,8 @@ class OverallDisplay extends React.Component {
               dataPoints={dataPointsLanguages}
               titles={{
                 main: "Programming language usage over all sessions",
-                y: "Progamming language",
-                x: "Hours spent writing code in the language"
+                x: "Progamming language",
+                y: "Hours spent writing code in the language"
               }}
             />
           </div>
@@ -53,8 +101,8 @@ class OverallDisplay extends React.Component {
               dataPoints={dataPointsIDEs}
               titles={{
                 main: "IDE usage over all sessions",
-                y: "IDE",
-                x: "Hours spent using the IDE"
+                x: "IDE",
+                y: "Hours spent using the IDE"
               }}
             />
           </div>
