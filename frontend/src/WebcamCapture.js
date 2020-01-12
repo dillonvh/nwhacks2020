@@ -5,9 +5,6 @@ import ReactInterval from 'react-interval';
 class WebcamCapture extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      imageData: ""
-    }
   }
 
   setRef = (webcam) => {
