@@ -13,14 +13,14 @@ class SoloChart extends React.Component {
       exportEnabled: true,
       theme: "light2", // "light1", "dark1", "dark2"
       title: {
-        text: props.titles.main,
+        text: this.props.titles.main,
         fontFamily: "optima",
         fontWeight: "normal",
         fontColor: "black",
         fontSize: 28
       },
       axisY: {
-        title: props.titles.y,
+        title: this.props.titles.y,
         titleFontSize: 18,
         includeZero: false,
         suffix: "%",
@@ -28,7 +28,7 @@ class SoloChart extends React.Component {
         maximum: 100
       },
       axisX: {
-        title: props.titles.x,
+        title: this.props.titles.x,
         titleFontSize: 18,
         interval: 10, // timeDiffInSeconds / 10, // TODO: figure this interval out
         suffix: "s",
@@ -38,7 +38,7 @@ class SoloChart extends React.Component {
         {
           type: "line",
           toolTipContent: "Time {x}s: {y}% Eye Level", // TODO: Proper timestamp intervals: hours if it makes sense, or minutes
-          dataPoints: props.dataPoints
+          dataPoints: this.props.dataPoints
         }
       ]
     };
