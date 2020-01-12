@@ -122,7 +122,10 @@ class App extends React.Component {
       );
     } else if (this.state.sessionComplete && this.state.showOverallDisplay) {
       overallDisplayJSX = (
-        <OverallDisplay />
+        <OverallDisplay
+          db={this.state.db}
+          sessionId={this.state.sessionId}
+        />
       );
 
     } else if (this.state.sessionLive && !this.state.sessionComplete) {

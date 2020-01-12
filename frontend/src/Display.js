@@ -28,7 +28,6 @@ class Display extends React.Component {
     this.setState({
       session
     });
-    console.log(session);
   }
 
   render() {
