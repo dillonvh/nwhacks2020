@@ -67,10 +67,7 @@ async function getMaxSessionId(db) {
 // Fetches the Google Cloud Vision API data for the given image,
 // then writes the image and API data to the given sessionData array
 async function writeSessionData(db, base64ImageString, sessionId) {
-  const sessionsRef = db.collection("sessions");
-  const sessionIdEntryKey = "session" + sessionId.toString();
-  const sessionDoc = await sessionsRef.doc(sessionIdEntryKey).get();
-  const sessionData = Array.from(sessionDoc.data().sessionData);
+  const sessionData = getSessionData(db, sessionId);
   console.log('og sessiondata copy', sessionData);
   // Get the image vision API data
   const visionAPIData = await getVisionAPIResults(base64ImageString);
@@ -85,9 +82,18 @@ async function writeSessionData(db, base64ImageString, sessionId) {
   console.log("Wrote data to session", sessionId);
 }
 
+// Get the sessionData array for a session
+async function getSessionData(db, sessionId) {
+  const sessionsRef = db.collection("sessions");
+  const sessionIdEntryKey = "session" + sessionId.toString();
+  const sessionDoc = await sessionsRef.doc(sessionIdEntryKey).get();
+  return Array.from(sessionDoc.data().sessionData);
+}
+
 export default {
   initFirebase,
   createSession,
   endSession,
-  writeSessionData
+  writeSessionData,
+  getSessionData
 }
