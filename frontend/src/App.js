@@ -11,10 +11,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       imageData: "",
-<<<<<<< Updated upstream
       db: null,
-=======
->>>>>>> Stashed changes
       sessionLive: false
     };
   }
@@ -59,17 +56,8 @@ class App extends React.Component {
       <div className="App">
         <div className="Main">
           <h1>HackerHelper</h1>
-<<<<<<< Updated upstream
-          <h2>Analytics system for hackers</h2>
-          <Button variant="contained" color="primary" size="large" onClick={this.startSession}>
-            Start Session &nbsp;
-            <PlayCircleOutlineIcon />
-          </Button>
-          <WebcamCapture setImageDataAppState={this.setImageDataAppState} />
-=======
           {sessionButtonJSX}
           {webcamCaptureJSX}
->>>>>>> Stashed changes
         </div>
       </div>
     );
