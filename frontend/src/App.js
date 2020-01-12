@@ -34,7 +34,8 @@ class App extends React.Component {
     this.setState({
       sessionLive: !this.state.sessionLive
     });
-  }
+    dbFunctions.createSession(this.state.db);
+  };
 
   render() {
     let sessionButtonJSX = null;
@@ -62,14 +63,6 @@ class App extends React.Component {
       </div>
     );
   }
-
-  startSession = () => {
-    // Start the session by writing to firebase
-    dbFunctions.createSession(this.state.db);
-    this.setState({
-      sessionLive: true
-    });
-  };
 }
 
 export default App;
