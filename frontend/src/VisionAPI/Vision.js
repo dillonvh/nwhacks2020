@@ -33,16 +33,12 @@ async function getVisionAPIResults(base64ImageString) {
   const face = data.responses[0].faceAnnotations[0];
 
   const faceData = {
-    midpointHeight: face.landmarks[6].y,
+    midpointHeight: face.landmarks[6].position.y,
     joy: face.joyLikelihood,
     sorrow: face.sorrowLikelihood,
     anger: face.angerLikelihood,
     surprise: face.surpriseLikelihood
   };
-
-  for (var key in faceData) {
-    console.log(key + ": " + faceData[key]);
-  }
 
   return faceData;
 }

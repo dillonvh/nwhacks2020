@@ -1,6 +1,7 @@
 import React from "react";
 import Webcam from "react-webcam";
 import ReactInterval from "react-interval";
+import dbFunctions from './Database/Firebase';
 
 class WebcamCapture extends React.Component {
   constructor(props) {
@@ -12,9 +13,11 @@ class WebcamCapture extends React.Component {
   };
 
   capture = () => {
+    // Do we need to check if the session is live here?
     const imageData = this.webcam.getScreenshot().slice(23);
     this.props.setImageDataAppState(imageData);
     console.log(imageData);
+    dbFunctions.writeSessionData(this.props.db, imageData, this.props.sessionId);
   };
 
   render() {

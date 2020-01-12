@@ -1,3 +1,5 @@
+import getVisionAPIResults from "../VisionAPI/Vision";
+
 const firebase = require("firebase");
 require("firebase/firestore");
 
@@ -13,6 +15,7 @@ function initFirebase() {
   return firebase.firestore();
 }
 
+// Creates a new session with an empty sessionData array
 async function createSession(db) {
   const startTimestamp = moment().format("MMDDYYYY-HHmmss");
   const maxSessionId = await getMaxSessionId(db);
@@ -23,28 +26,36 @@ async function createSession(db) {
     sessionId: newSessionId,
     startTimestamp,
     endTimestamp: "",
-    sessionData: {}
+    sessionData: []
+    // Session data will be an array of objects that look like the following:
+    // {
+    //   base64ImageString: string,
+    //   visionAPIData: Object
+    // }
   });
   console.log("Session created!", newSessionId);
   return newSessionId;
 }
 
-async function updateSession(db, sessionID) {
+// Ends a session by writing the endTimestamp to the session
+async function endSession(db, sessionID) {
   const endTimestamp = moment().format("MMDDYYYY-HHmmss");
-  db.collection("sessions").doc("session" + sessionID.toString()).update({
-    endTimestamp: endTimestamp
+  const sessionIdEntryKey = "session" + sessionID.toString();
+  const sessionsRef = db.collection("sessions");
+  sessionsRef.doc(sessionIdEntryKey).update({
+    endTimestamp
   });
   console.log("Session ended!", sessionID);
 }
 
+// Gets the max session id, necessary for adding new sessions
 async function getMaxSessionId(db) {
   const sessionsRef = db.collection("sessions");
-  let querySnapshot = await sessionsRef.orderBy("sessionId", "desc").limit(1).get();
-  let queryDocsSnapshot = await querySnapshot.docs;
-  let data = [];
+  const querySnapshot = await sessionsRef.orderBy("sessionId", "desc").limit(1).get();
+  const queryDocsSnapshot = await querySnapshot.docs;
+  const data = [];
   queryDocsSnapshot.forEach(doc => {
     data.push(doc.data());
-    console.log(data);
   });
   if (data.length === 0) {
     return "0"
@@ -53,8 +64,30 @@ async function getMaxSessionId(db) {
   }
 }
 
+// Fetches the Google Cloud Vision API data for the given image,
+// then writes the image and API data to the given sessionData array
+async function writeSessionData(db, base64ImageString, sessionId) {
+  const sessionsRef = db.collection("sessions");
+  const sessionIdEntryKey = "session" + sessionId.toString();
+  const sessionDoc = await sessionsRef.doc(sessionIdEntryKey).get();
+  const sessionData = Array.from(sessionDoc.data().sessionData);
+  console.log('og sessiondata copy', sessionData);
+  // Get the image vision API data
+  const visionAPIData = await getVisionAPIResults(base64ImageString);
+  console.log(visionAPIData);
+  sessionData.push({
+    base64ImageString,
+    visionAPIData
+  });
+  sessionsRef.doc(sessionIdEntryKey).update({
+    sessionData
+  });
+  console.log("Wrote data to session", sessionId);
+}
+
 export default {
   initFirebase,
   createSession,
-  updateSession
+  endSession,
+  writeSessionData
 }
