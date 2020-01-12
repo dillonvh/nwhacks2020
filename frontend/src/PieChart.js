@@ -8,7 +8,8 @@ export default function PieChart(props) {
     exportEnabled: true,
     animationEnabled: true,
     title: {
-      text: "Emotion Spread"
+      text: "Emotion Distribution",
+      fontFamily: "Calibri"
     },
     data: [
       {

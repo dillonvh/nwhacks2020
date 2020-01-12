@@ -6,11 +6,11 @@ class OverallDisplay extends React.Component {
   }
 
   componentDidMount () {
-    // TODO: build charts for overall display
+
   }
 
   render () {
-    
+
     return (
       <div>
         <h3>Here are some visualizations that analyze all of your sessions:</h3>

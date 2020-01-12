@@ -43,7 +43,8 @@ class Display extends React.Component {
     let surpriseTotal = 0;
     let grandTotal = 0;
 
-    let sessionChartCardJSX = <h3>Oh no! There's no data here. Refresh the page to try again.</h3>;
+    // TODO: render the proper message if nothing loads
+    let sessionChartCardJSX = <h3>Visualizations are loading.</h3>;
 
     if (
       this.state.session &&
@@ -69,7 +70,7 @@ class Display extends React.Component {
         });
         dataPointsPosture.push({
           x: index * 10,
-          y: 0.5 * (200 - dataEntry.visionAPIData.noseHeight)
+          y: 0.5 * (220 - dataEntry.visionAPIData.noseHeight)
         });
 
         {
@@ -83,11 +84,11 @@ class Display extends React.Component {
         grandTotal = angerTotal + joyTotal + sorrowTotal + surpriseTotal;
       });
 
-      console.log("inside display: ", this.state.session.endTimestamp);
       sessionChartCardJSX = (
         <div className="session-chart-wrapper">
           <div className="session-chart-wrapper-child">
             <MultiChart
+              db={this.props.db}
               dataPointsAnger={dataPointsAnger}
               dataPointsJoy={dataPointsJoy}
               dataPointsSorrow={dataPointsSorrow}
@@ -100,6 +101,8 @@ class Display extends React.Component {
           {/* Posture Chart */}
           <div className="session-chart-wrapper-child">
             <SoloChart
+              sessionId={this.state.session.sessionId}
+              db={this.props.db}
               titles={{
                 main: "Posture Indicator for this session",
                 x: "Time",
@@ -115,6 +118,8 @@ class Display extends React.Component {
           {/* Joy Chart */}
           <div className="session-chart-wrapper-child">
             <SoloChart
+              sessionId={this.state.session.sessionId}
+              db={this.props.db}
               titles={{
                 main: "Joy over Time for this session",
                 x: "Time",
@@ -130,6 +135,8 @@ class Display extends React.Component {
           {/* Anger Chart */}
           <div className="session-chart-wrapper-child">
             <SoloChart
+              sessionId={this.state.session.sessionId}
+              db={this.props.db}
               titles={{
                 main: "Anger over Time for this session",
                 x: "Time",
@@ -145,6 +152,8 @@ class Display extends React.Component {
           {/* Sorrow Chart */}
           <div className="session-chart-wrapper-child">
             <SoloChart
+              sessionId={this.state.session.sessionId}
+              db={this.props.db}
               titles={{
                 main: "Sorrow over Time for this session",
                 x: "Time",
@@ -160,6 +169,8 @@ class Display extends React.Component {
           {/* Surprise Chart */}
           <div className="session-chart-wrapper-child">
             <SoloChart
+              sessionId={this.state.session.sessionId}
+              db={this.props.db}
               titles={{
                 main: "Surprise over Time for this session",
                 x: "Time",
@@ -175,6 +186,8 @@ class Display extends React.Component {
           {/* Pie Chart */}
           <div className="session-chart-wrapper-child">
             <PieChart
+              sessionId={this.state.session.sessionId}
+              db={this.props.db}
               className="pie-chart"
               values={{
                 anger: angerTotal,

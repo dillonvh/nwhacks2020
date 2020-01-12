@@ -32,15 +32,26 @@ async function createSession(db, initialSessionData) {
   return newSessionId;
 }
 
-// Ends a session by writing the endTimestamp to the session
-async function endSession(db, sessionID) {
-  const endTimestamp = moment().format("YYYY-MM-DD HH:mm:ss");
-  const sessionIdEntryKey = "session" + sessionID.toString();
+async function writeTimeDifference(db, timeDifferenceSeconds, sessionId) {
   const sessionsRef = db.collection("sessions");
-  sessionsRef.doc(sessionIdEntryKey).update({
-    endTimestamp
+  const sessionIdEntryKey = "session" + sessionId.toString();
+  await sessionsRef.doc(sessionIdEntryKey).update({
+    totalSessionTime: timeDifferenceSeconds
   });
-  console.log("Session ended", sessionID);
+}
+
+// Ends a session by writing the endTimestamp to the session
+async function endSession(db, sessionId) {
+  const endTimestamp = moment().format("YYYY-MM-DD HH:mm:ss");
+  const sessionIdEntryKey = "session" + sessionId.toString();
+  const sessionsRef = db.collection("sessions");
+  const startTimestampQuery = await sessionsRef.doc(sessionIdEntryKey).get();
+  const startTimestamp = startTimestampQuery.data().startTimestamp;
+  const totalSessionTime = moment(endTimestamp).diff(startTimestamp, 'seconds');
+  sessionsRef.doc(sessionIdEntryKey).update({
+    endTimestamp,
+    totalSessionTime
+  });
 }
 
 // Gets the max session id, necessary for adding new sessions
@@ -88,10 +99,19 @@ async function getSession(db, sessionId) {
   return sessionDoc.data();
 }
 
+async function getEndTimestamp(db, sessionId) {
+  const sessionsRef = db.collection("sessions");
+  const sessionIdEntryKey = "session" + sessionId.toString();
+  const sessionDoc = await sessionsRef.doc(sessionIdEntryKey).get();
+  return sessionDoc.data().endTimestamp;
+}
+
 export default {
   initFirebase,
   createSession,
   endSession,
   writeSessionData,
-  getSession
+  getSession,
+  getEndTimestamp,
+  writeTimeDifference
 }
