@@ -23,28 +23,28 @@ export default function Chart(props) {
     },
     axisX: {
       title: "Time",
-      interval: 2, // timeDiffInSeconds / 10, // TODO: figure this interval out
+      interval: 10, // timeDiffInSeconds / 10, // TODO: figure this interval out
       suffix: "s"
     },
     data: [
       {
         type: "line",
-        toolTipContent: "Timestamp {x} * 10s: {y}% Angry", // TODO: Proper timestamp intervals: hours if it makes sense, or minutes
+        toolTipContent: "Time {x}s: {y}% Angry", // TODO: Proper timestamp intervals: hours if it makes sense, or minutes
         dataPoints: props.dataPointsAnger
       },
       {
         type: "line",
-        toolTipContent: "Timestamp {x}: {y}% Joyous",
+        toolTipContent: "Time {x}s: {y}% Joyous",
         dataPoints: props.dataPointsJoy
       },
       {
         type: "line",
-        toolTipContent: "Timestamp {x}: {y}% Sad",
+        toolTipContent: "Time {x}s: {y}% Sad",
         dataPoints: props.dataPointsSorrow
       },
       {
         type: "line",
-        toolTipContent: "Timestamp {x}: {y}% Surprised",
+        toolTipContent: "Time {x}s: {y}% Surprised",
         dataPoints: props.dataPointsSurprise
       }
 
