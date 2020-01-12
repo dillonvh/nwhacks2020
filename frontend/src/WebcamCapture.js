@@ -1,22 +1,23 @@
-import React from 'react';
+import React from "react";
 import Webcam from "react-webcam";
-import ReactInterval from 'react-interval';
+import ReactInterval from "react-interval";
 
 class WebcamCapture extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  setRef = (webcam) => {
+  setRef = webcam => {
     this.webcam = webcam;
-  }
+  };
 
   capture = () => {
     const imageData = this.webcam.getScreenshot();
     this.props.setImageDataAppState(imageData);
-  }
+    console.log(imageData);
+  };
 
-  render () {
+  render() {
     const videoConstraints = {
       width: 1280,
       height: 720,
@@ -34,10 +35,9 @@ class WebcamCapture extends React.Component {
           screenshotFormat="image/jpeg"
           videoConstraints={videoConstraints}
         />
-        <ReactInterval timeout={10000} enabled={true}
-         callback={this.capture} />
+        <ReactInterval timeout={10000} enabled={true} callback={this.capture} />
       </>
-    )
+    );
   }
 }
 
