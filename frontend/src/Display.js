@@ -69,8 +69,9 @@ class Display extends React.Component {
       });
 
       sessionChartCardJSX = (
-        <div>
-          <div>
+        <div className="session-chart-wrapper">
+          <h1>Analyze your session:</h1>
+          <div className="session-chart-wrapper-child">
             <MultiChart
               dataPointsAnger={dataPointsAnger}
               dataPointsJoy={dataPointsJoy}
@@ -82,7 +83,7 @@ class Display extends React.Component {
           </div>
 
           {/* Posture Chart */}
-          <div>
+          <div className="session-chart-wrapper-child">
             <SoloChart
               titles={{
                 main: "Posture Indicator for this session",
@@ -97,7 +98,7 @@ class Display extends React.Component {
           </div>
 
           {/* Joy Chart */}
-          <div>
+          <div className="session-chart-wrapper-child">
             <SoloChart
               titles={{
                 main: "Joy over Time for this session",
@@ -112,7 +113,7 @@ class Display extends React.Component {
           </div>
 
           {/* Anger Chart */}
-          <div>
+          <div className="session-chart-wrapper-child">
             <SoloChart
               titles={{
                 main: "Anger over Time for this session",
@@ -127,7 +128,7 @@ class Display extends React.Component {
           </div>
 
           {/* Sorrow Chart */}
-          <div>
+          <div className="session-chart-wrapper-child">
             <SoloChart
               titles={{
                 main: "Sorrow over Time for this session",
@@ -142,7 +143,7 @@ class Display extends React.Component {
           </div>
 
           {/* Surprise Chart */}
-          <div>
+          <div className="session-chart-wrapper-child">
             <SoloChart
               titles={{
                 main: "Surprise over Time for this session",
@@ -159,7 +160,7 @@ class Display extends React.Component {
       );
     }
 
-    return <div>{sessionChartCardJSX}</div>;
+    return <div className="display-wrapper">{sessionChartCardJSX}</div>;
   }
 }
 

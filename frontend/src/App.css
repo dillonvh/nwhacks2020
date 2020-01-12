@@ -19,3 +19,35 @@
 .Webcam {
   visibility: hidden;
 }
+
+.canvasjs-chart-toolbar {
+  display: none !important;
+}
+
+.canvasjs-chart-credit {
+  display: none !important;
+}
+
+.session-chart-wrapper {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  max-width: 800px;
+}
+
+.session-chart-wrapper-child {
+  width: 550px;
+  height: 450px;
+}
+
+.display-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.canvasjs-chart-canvas {
+  position: relative !important;
+}
+
+
