@@ -56,8 +56,10 @@ class App extends React.Component {
     let webcamCaptureJSX = null;
     let selectFormsJSX = null;
     let displayJSX = null;
+    let analyzeHeaderJSX = null;
 
     if (this.state.sessionComplete) {
+      analyzeHeaderJSX = <h3>Analyze your session with auto-generated visualizations</h3>
       displayJSX = <Display
         db={this.state.db}
         sessionId={this.state.sessionId}
@@ -81,6 +83,7 @@ class App extends React.Component {
           <StopIcon />
         </Button>
       );
+      analyzeHeaderJSX = <h3>You're on camera! Pictures of your session are being analyzed</h3>;
     } else {
       selectFormsJSX = <SelectForms />
       sessionButtonJSX = (
@@ -100,6 +103,7 @@ class App extends React.Component {
       <div className="App">
         <div className="Main">
           <h1>HackerHelper</h1>
+          {analyzeHeaderJSX}
           {selectFormsJSX}
           {sessionButtonJSX}
           {webcamCaptureJSX}

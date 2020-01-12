@@ -33,7 +33,7 @@
   align-items: center;
   flex-wrap: wrap;
   justify-content: space-around;
-  max-width: 800px;
+  max-width: 1200px;
 }
 
 .session-chart-wrapper-child {
@@ -48,6 +48,10 @@
 
 .canvasjs-chart-canvas {
   position: relative !important;
+}
+
+.session-chart-wrapper-header {
+
 }
 
 

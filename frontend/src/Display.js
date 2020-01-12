@@ -21,7 +21,6 @@ class Display extends React.Component {
   }
 
   async componentDidMount() {
-    console.log("component did mount, sessionId:", this.props.sessionId);
     const session = await dbFunctions.getSession(
       this.props.db,
       this.props.sessionId
@@ -38,7 +37,7 @@ class Display extends React.Component {
     const dataPointsSurprise = [];
     const dataPointsPosture = [];
 
-    let sessionChartCardJSX = <h1>No session yet! Can't make a chart</h1>;
+    let sessionChartCardJSX = <h3>Oh no! There's no data here. Refresh the page to try again.</h3>;
 
     if (
       this.state.session &&
@@ -70,7 +69,6 @@ class Display extends React.Component {
 
       sessionChartCardJSX = (
         <div className="session-chart-wrapper">
-          <h1>Analyze your session:</h1>
           <div className="session-chart-wrapper-child">
             <MultiChart
               dataPointsAnger={dataPointsAnger}
