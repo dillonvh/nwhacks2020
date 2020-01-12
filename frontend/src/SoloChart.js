@@ -7,33 +7,38 @@ class SoloChart extends React.Component {
     super(props);
   }
 
-  render () {
-
+  render() {
     const options = {
       animationEnabled: true,
       exportEnabled: true,
       theme: "light2", // "light1", "dark1", "dark2"
       title: {
-        text: this.props.titles.main
+        text: props.titles.main,
+        fontFamily: "optima",
+        fontWeight: "normal",
+        fontColor: "black",
+        fontSize: 28
       },
       axisY: {
-        title: this.props.titles.y,
+        title: props.titles.y,
+        titleFontSize: 18,
         includeZero: false,
+        suffix: "%",
         minimum: 0,
-        interval: 10,
-        suffix: "%"
+        maximum: 100
       },
       axisX: {
-        title: this.props.titles.x,
-        interval: 10,
-        minimum: 0,// timeDiffInSeconds / 10, // TODO: figure this interval out
-        suffix: "s"
+        title: props.titles.x,
+        titleFontSize: 18,
+        interval: 10, // timeDiffInSeconds / 10, // TODO: figure this interval out
+        suffix: "s",
+        minimum: 0
       },
       data: [
         {
           type: "line",
-          toolTipContent: this.props.titles.tooltip, // TODO: Proper timestamp intervals: hours if it makes sense, or minutes
-          dataPoints: this.props.dataPoints
+          toolTipContent: "Time {x}s: {y}% Eye Level", // TODO: Proper timestamp intervals: hours if it makes sense, or minutes
+          dataPoints: props.dataPoints
         }
       ]
     };

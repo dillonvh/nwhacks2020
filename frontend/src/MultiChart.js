@@ -17,38 +17,58 @@ export default function MultiChart(props) {
     exportEnabled: true,
     theme: "light2", // "light1", "dark1", "dark2"
     title: {
-      text: "Emotions over Time for this session"
+      text: "Emotions over Time for this session",
+      fontFamily: "optima",
+      fontWeight: "normal",
+      fontColor: "black",
+      fontSize: 28
     },
     axisY: {
       title: "Likeliness of certain emotions",
+      titleFontSize: 18,
       includeZero: false,
-      suffix: "%"
+      suffix: "%",
+      minimum: 0,
+      maximum: 100
     },
     axisX: {
       title: "Time",
+      titleFontSize: 18,
       interval: 10, // timeDiffInSeconds / 10, // TODO: figure this interval out
-      suffix: "s"
+      suffix: "s",
+      minimum: 0
+    },
+    legend: {
+      fontSize: 15
     },
     data: [
       {
         type: "line",
         toolTipContent: "Time {x}s: {y}% Angry", // TODO: Proper timestamp intervals: hours if it makes sense, or minutes
-        dataPoints: props.dataPointsAnger
+        dataPoints: props.dataPointsAnger,
+        showInLegend: true,
+        legendText: "Angry"
       },
       {
         type: "line",
         toolTipContent: "Time {x}s: {y}% Joyous",
-        dataPoints: props.dataPointsJoy
+        dataPoints: props.dataPointsJoy,
+        showInLegend: true,
+        legendText: "Joyous"
       },
       {
         type: "line",
         toolTipContent: "Time {x}s: {y}% Sad",
-        dataPoints: props.dataPointsSorrow
+        dataPoints: props.dataPointsSorrow,
+        showInLegend: true,
+        legendText: "Sad"
       },
       {
         type: "line",
         toolTipContent: "Time {x}s: {y}% Surprised",
-        dataPoints: props.dataPointsSurprise
+        dataPoints: props.dataPointsSurprise,
+        showInLegend: true,
+        legendText: "Surprised"
       }
     ]
   };
