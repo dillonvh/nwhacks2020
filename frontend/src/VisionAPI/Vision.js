@@ -11,7 +11,6 @@ async function getVisionAPIResults(base64ImageString) {
   });
 
   const faces = result.faceAnnotations;
-  console.log("Labels:");
 }
 
 export default getVisionAPIResults;

@@ -3,20 +3,25 @@ import "./App.css";
 import Button from "@material-ui/core/Button";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import WebcamCapture from "./WebcamCapture";
-import initFirebase from "./Database/Firebase";
+import dbFunctions from "./Database/Firebase";
 import getVisionAPIResults from "./VisionAPI/Vision";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      imageData: ""
+      imageData: "",
+      db: null,
+      sessionLive: false
     };
   }
 
   componentDidMount() {
     // Initialize the database connection here
-    const db = initFirebase();
+    const db = dbFunctions.initFirebase();
+    this.setState({
+      db
+    });
   }
 
   setImageDataAppState = imageData => {
@@ -30,7 +35,8 @@ class App extends React.Component {
       <div className="App">
         <div className="Main">
           <h1>HackerHelper</h1>
-          <Button variant="contained" color="primary" size="large">
+          <h2>Analytics system for hackers</h2>
+          <Button variant="contained" color="primary" size="large" onClick={this.startSession}>
             Start Session &nbsp;
             <PlayCircleOutlineIcon />
           </Button>
@@ -42,6 +48,10 @@ class App extends React.Component {
 
   startSession = () => {
     // Start the session by writing to firebase
+    dbFunctions.createSession(this.state.db);
+    this.setState({
+      sessionLive: true
+    });
   };
 }
 
