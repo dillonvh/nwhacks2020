@@ -17,3 +17,7 @@
 label + .MuiInput-formControl {
   color: white;
 }
+
+.MuiInput-input {
+  text-align: left;
+}
