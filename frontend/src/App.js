@@ -57,7 +57,12 @@ class App extends React.Component {
   };
 
   handleStartSessionClick = async () => {
-    const newSessionId = await dbFunctions.createSession(this.state.db);
+    const initialSessionData = {
+      languageSelection: this.state.languageSelection,
+      ideSelection: this.state.ideSelection,
+      predictedHoursSelection: parseInt(this.state.predictedHoursSelection)
+    };
+    const newSessionId = await dbFunctions.createSession(this.state.db, initialSessionData);
     this.setState({
       sessionLive: !this.state.sessionLive,
       sessionId: newSessionId

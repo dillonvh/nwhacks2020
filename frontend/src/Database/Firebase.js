@@ -16,7 +16,7 @@ function initFirebase() {
 }
 
 // Creates a new session with an empty sessionData array
-async function createSession(db) {
+async function createSession(db, initialSessionData) {
   const startTimestamp = moment().format("YYYY-MM-DD HH:mm:ss");
   const maxSessionId = await getMaxSessionId(db);
   const newSessionId = parseInt(maxSessionId) + 1;
@@ -25,6 +25,7 @@ async function createSession(db) {
     sessionId: newSessionId,
     startTimestamp,
     endTimestamp: "",
+    initialSessionData,
     sessionData: []
   });
   console.log("Session created!", newSessionId);
