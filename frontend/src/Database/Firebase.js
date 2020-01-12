@@ -16,8 +16,10 @@ function initFirebase() {
 async function createSession(db) {
   const startTimestamp = moment().format("MMDDYYYY-HHmmss");
   const maxSessionId = await getMaxSessionId(db);
-  const newSessionId = (parseInt(maxSessionId) + 1).toString();
-  db.collection("sessions").doc(newSessionId).set({
+  console.log(maxSessionId);
+  const newSessionId = parseInt(maxSessionId) + 1;
+  const entryKey = "session" + newSessionId.toString();
+  db.collection("sessions").doc(entryKey).set({
     sessionId: newSessionId,
     startTimestamp,
     endTimestamp: "",
@@ -33,6 +35,7 @@ async function getMaxSessionId(db) {
   let data = [];
   queryDocsSnapshot.forEach(doc => {
     data.push(doc.data());
+    console.log(data);
   });
   if (data.length === 0) {
     return "0"
