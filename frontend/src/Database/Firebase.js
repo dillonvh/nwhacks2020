@@ -13,10 +13,12 @@ function initFirebase() {
   return firebase.firestore();
 }
 
-function createSession(db) {
+async function createSession(db) {
   const startTimestamp = moment().format("MMDDYYYY-HHmmss");
-  getMaxSessionId(db);
-  db.collection("sessions").doc("1").set({
+  const maxSessionId = await getMaxSessionId(db);
+  const newSessionId = (parseInt(maxSessionId) + 1).toString();
+  db.collection("sessions").doc(newSessionId).set({
+    sessionId: newSessionId,
     startTimestamp,
     endTimestamp: "",
     sessionData: {}
@@ -24,13 +26,19 @@ function createSession(db) {
   console.log("Session created!");
 }
 
-function getMaxSessionId(db) {
-  let query = db.collection("sessions").orderBy("sessionId");
-  console.log(query);
-  // if (!maxSessionId) {
-  //   maxSessionId = 0;
-  // }
-  // return maxSessionId;
+async function getMaxSessionId(db) {
+  const sessionsRef = db.collection("sessions");
+  let querySnapshot = await sessionsRef.orderBy("sessionId", "desc").limit(1).get();
+  let queryDocsSnapshot = await querySnapshot.docs;
+  let data = [];
+  queryDocsSnapshot.forEach(doc => {
+    data.push(doc.data());
+  });
+  if (data.length === 0) {
+    return "0"
+  } else {
+    return data[0].sessionId;
+  }
 }
 
 export default {
