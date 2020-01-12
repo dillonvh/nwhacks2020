@@ -1,7 +1,7 @@
 import React from "react";
 import Webcam from "react-webcam";
 import ReactInterval from "react-interval";
-import dbFunctions from './Database/Firebase';
+import dbFunctions from "./Database/Firebase";
 
 class WebcamCapture extends React.Component {
   constructor(props) {
@@ -17,7 +17,11 @@ class WebcamCapture extends React.Component {
     const imageData = this.webcam.getScreenshot().slice(23);
     this.props.setImageDataAppState(imageData);
     console.log(imageData);
-    dbFunctions.writeSessionData(this.props.db, imageData, this.props.sessionId);
+    dbFunctions.writeSessionData(
+      this.props.db,
+      imageData,
+      this.props.sessionId
+    );
   };
 
   render() {
@@ -30,7 +34,7 @@ class WebcamCapture extends React.Component {
     return (
       <>
         <Webcam
-          className="Webcam"
+          //className="Webcam"
           height={400}
           width={400}
           audio={false}
