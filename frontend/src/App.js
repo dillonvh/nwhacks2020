@@ -1,4 +1,5 @@
 import React from "react";
+import Webcam from "react-webcam";
 import "./App.css";
 import Button from "@material-ui/core/Button";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
@@ -10,13 +11,20 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-    }
+      imageData: ""
+    };
   }
 
   componentDidMount() {
     // Initialize the database connection here
     const db = initFirebase();
   }
+
+  setImageDataAppState = (imageData) => {
+    this.setState({
+      imageData
+    });
+  };
 
   render () {
     return (
@@ -29,19 +37,10 @@ class App extends React.Component {
             Start Session &nbsp;
             <PlayCircleOutlineIcon />
           </Button>
-          <WebcamCapture />
+          <WebcamCapture setImageDataAppState={this.setImageDataAppState}/>
         </div>
       </div>
     );
-  }
-
-  startSession = () => {
-    // Start the session by writing to firebase
-  }
-
-  takePicture = () => {
-    // Take a picture from the webcam, write it to Cloud Storage, get the image URL back and store it in firebase
-
   }
 }
 
